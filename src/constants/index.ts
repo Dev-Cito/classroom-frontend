@@ -1,11 +1,13 @@
 export const DEPARTMENTS = [
-    "CS",
-    "Math",
-    "English",
-    "French",
+    "Computer Science",
+    "Mathematics",
+    "History",
+    "Physics",
     "Art",
+    "Biology",
+    "Economics",
+    "Literature",
 ]
-
 export const DEPARTMENTS_OPTIONS = DEPARTMENTS.map((dept) =>({
     value: dept,
     label: dept
