@@ -8,7 +8,7 @@ import {DEPARTMENTS, DEPARTMENTS_OPTIONS} from "@/constants";
 import {CreateButton} from "@/components/refine-ui/buttons/create.tsx";
 import {DataTable} from "@/components/refine-ui/data-table/data-table.tsx";
 import {useTable} from "@refinedev/react-table";
-import {subjects} from "@/types";
+import {Subject} from "@/types";
 import {Badge} from "@/components/ui/badge.tsx";
 import {ColumnDef} from "@tanstack/react-table";
 
@@ -23,8 +23,8 @@ const SubjectsList = () => {
     const searchFilters = searchQuery ? [
         {field: "name", operator: "eq" as const, value: searchQuery}
     ]: [];
-    const subjectTable = useTable<subjects>({
-        columns: useMemo<ColumnDef<subjects>[]>(()=> [
+    const subjectTable = useTable<Subject>({
+        columns: useMemo<ColumnDef<Subject>[]>(()=> [
             {
                 id: "courseCode",
                 accessorKey: "courseCode",

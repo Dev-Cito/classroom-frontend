@@ -1,6 +1,7 @@
-import { subjects } from "@/types/index.ts";
+import {Subject} from "@/types";
 
-export const MOCK_SUBJECTS: subjects[] = [
+
+export const MOCK_SUBJECTS: Subject[] = [
     {
         id: "subj-001",
         courseCode: "CS101",
