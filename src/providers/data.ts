@@ -3,6 +3,7 @@ import {BACKEND_BASE_URL} from "@/constants";
 import {ListResponse} from "@/types";
 
 
+
 const options: CreateDataProviderOptions = {
   getList: {
       getEndpoint: ({ resource }) => resource,
