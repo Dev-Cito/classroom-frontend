@@ -8,6 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import {classSchema} from "@/lib/schema.ts";
 import * as z from "zod";
+import { UploadWidgetValue } from "@/types";
+
 
 import {
     Form,
@@ -77,21 +79,21 @@ const Create = () => {
 
     const bannerPublicId = form.watch("bannerCldPubId");
 
-    const setBannerImage = (file, field) => {
-        if(file){
-            field.onChamged(file.url);
-            form.setValue("bannerCloud", file.publicId, {
+    const setBannerImage = (file: UploadWidgetValue | null, field: { onChange: (value: string) => void }) => {
+        if (file) {
+            field.onChange(file.url);
+            form.setValue("bannerCldPubId", file.publicId, {
                 shouldValidate: true,
                 shouldDirty: true,
-            })
-        }else{
-            field.onChamged("");
+            });
+        } else {
+            field.onChange("");
             form.setValue("bannerCldPubId", "", {
                 shouldValidate: true,
                 shouldDirty: true,
             });
         }
-    }
+    };
 
     return (
         <CreateView className="class-view">
@@ -122,8 +124,9 @@ const Create = () => {
                                     <FormItem>
                                         <FormLabel>Banner Image<span className="text-orange-600">*</span></FormLabel>
                                         <FormControl>
-                                            <UploadWidget value={field.value ? {url: field.value, publicId: bannerPublicId ?? ""} : null} onChange={(file: any, field:any) => setBannerImage(file, field)}/>
-                                        </FormControl>
+                                            <UploadWidget value={field.value ? { url: field.value, publicId: bannerPublicId ?? "" } : null}
+                                            onChange={(file) => setBannerImage(file, field)}
+                                            /></FormControl>
                                         <FormMessage/>
                                         {errors.bannerCldPubId && !errors.bannerUrl && (
                                             <p className="text-destructive text-sm">{errors.bannerCldPubId.message ?.toString()}</p>
