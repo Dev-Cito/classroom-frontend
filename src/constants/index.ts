@@ -55,15 +55,53 @@ export const ALLOWED_TYPES = [
     "image/webp",
 ];
 
-export const CLOUDINARY_UPLOAD_URL = import.meta.env.VITE_CLOUDINARY_UPLOAD_URL;
-export const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-export const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
+// Env validation helpers
+const requireNonEmpty = (name: string, value: unknown): string => {
+    if (typeof value !== "string" || value.trim() === "") {
+        throw new Error(`[ENV] ${name} is missing or empty. Check your .env or build-time environment.`);
+    }
+    return value.trim();
+};
 
-export const BASE_URL = import.meta.env.VITE_API_URL;
-export const ACCESS_TOKEN_KEY = import.meta.env.VITE_ACCESS_TOKEN_KEY;
-export const REFRESH_TOKEN_KEY = import.meta.env.VITE_REFRESH_TOKEN_KEY;
+const requireUrl = (name: string, value: unknown): string => {
+    const str = requireNonEmpty(name, value);
+    try {
+        const normalized = new URL(str).toString().replace(/\/+$/, "");
+        return normalized;
+    } catch {
+        throw new Error(`[ENV] ${name} must be a valid URL. Received: ${str}`);
+    }
+};
+
+export const CLOUDINARY_UPLOAD_URL = requireUrl(
+    "VITE_CLOUDINARY_UPLOAD_URL",
+    import.meta.env.VITE_CLOUDINARY_UPLOAD_URL,
+);
+export const CLOUDINARY_CLOUD_NAME = requireNonEmpty(
+    "VITE_CLOUDINARY_CLOUD_NAME",
+    import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+);
+export const BACKEND_BASE_URL = requireUrl(
+    "VITE_BACKEND_BASE_URL",
+    import.meta.env.VITE_BACKEND_BASE_URL,
+);
+
+export const BASE_URL = requireUrl(
+    "VITE_API_URL",
+    import.meta.env.VITE_API_URL,
+);
+export const ACCESS_TOKEN_KEY = requireNonEmpty(
+    "VITE_ACCESS_TOKEN_KEY",
+    import.meta.env.VITE_ACCESS_TOKEN_KEY,
+);
+export const REFRESH_TOKEN_KEY = requireNonEmpty(
+    "VITE_REFRESH_TOKEN_KEY",
+    import.meta.env.VITE_REFRESH_TOKEN_KEY,
+);
 
 export const REFRESH_TOKEN_URL = `${BASE_URL}/refresh-token`;
 
-export const CLOUDINARY_UPLOAD_PRESET = import.meta.env
-    .VITE_CLOUDINARY_UPLOAD_PRESET;
+export const CLOUDINARY_UPLOAD_PRESET = requireNonEmpty(
+    "VITE_CLOUDINARY_UPLOAD_PRESET",
+    import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
+);
