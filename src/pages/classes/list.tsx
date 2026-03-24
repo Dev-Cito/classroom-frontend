@@ -107,7 +107,7 @@ const ClassesList = () => {
                 id: "createdAt",
                 accessorKey: "createdAt",
                 size: 150,
-                header: () => <p className="column-title">Created At</p>,
+                header: () => <p className="column-title">Added On</p>,
                 cell: ({getValue}) => (
                     <span className="text-foreground">
                         {new Date(getValue<string>()).toLocaleDateString()}
