@@ -31,18 +31,30 @@ const options: CreateDataProviderOptions = {
         buildQueryParams: async ({ resource, pagination, filters }) => {
             const page = pagination?.currentPage ?? 1;
             const pageSize = pagination?.pageSize ?? 10;
-
-            const params: Record<string, string|number> = { page, limit: pageSize};
+            const params: Record<string, string | number> = { page, limit: pageSize };
 
             filters?.forEach((filter) => {
                 const field = "field" in filter ? filter.field : "";
                 const value = String(filter.value);
 
-                if(resource === "subjects"){
-                    if(field === "department") params.department = value;
-                    if(field === "name" || field === "code") params.search = value;
+                if (resource === "subjects") {
+                    if (field === "department") params.department = value;
+                    if (field === "name" || field === "code") params.search = value;
                 }
-            })
+
+                if (resource === "classes") {
+                    if (field === "search")   params.search  = value;
+                    if (field === "subject")  params.subject  = value;
+                    if (field === "teacher")  params.teacher  = value;
+                    if (field === "status")   params.status   = value;
+                }
+
+                if (resource === "users") {
+                    if (field === "search") params.search = value;
+                    if (field === "role")   params.role   = value;
+                }
+            });
+
             return params;
         },
 
@@ -73,6 +85,9 @@ const options: CreateDataProviderOptions = {
 }
 
 
-const { dataProvider } = createDataProvider(BACKEND_BASE_URL, options);
+// Ensure the API base includes the /api prefix expected by the backend mounts
+const API_BASE = BACKEND_BASE_URL.replace(/\/+$/, "") + "/api";
+
+const { dataProvider } = createDataProvider(API_BASE, options);
 
 export { dataProvider };
