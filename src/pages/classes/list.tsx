@@ -34,6 +34,8 @@ const ClassesList = () => {
         resource: "users",
         pagination: { pageSize: 100, mode: "server" },
         sorters: [{ field: "name", order: "asc" }],
+        filters: [{ field: "role", operator: "eq", value: "teacher" }],
+
     });
 
     const subjects = subjectsData?.data ?? [];
@@ -45,10 +47,10 @@ const ClassesList = () => {
             ? [{ field: "search", operator: "eq" as const, value: searchQuery }]
             : []),
         ...(selectedSubject !== "all"
-            ? [{ field: "subject", operator: "eq" as const, value: selectedSubject }]
+            ? [{ field: "subjectId", operator: "eq" as const, value: selectedSubject }]
             : []),
         ...(selectedTeacher !== "all"
-            ? [{ field: "teacher", operator: "eq" as const, value: selectedTeacher }]
+            ? [{ field: "teacherId", operator: "eq" as const, value: selectedTeacher }]
             : []),
         ...(selectedStatus !== "all"
             ? [{ field: "status", operator: "eq" as const, value: selectedStatus }]
@@ -160,7 +162,7 @@ const ClassesList = () => {
                             <SelectContent>
                                 <SelectItem value="all">All Subjects</SelectItem>
                                 {subjects.map((s) => (
-                                    <SelectItem key={s.id} value={s.name}>{s.name}</SelectItem>
+                                    <SelectItem key={s.id} value={String(s.id)}>{s.name}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -172,7 +174,7 @@ const ClassesList = () => {
                             <SelectContent>
                                 <SelectItem value="all">All Teachers</SelectItem>
                                 {teachers.map((t) => (
-                                    <SelectItem key={t.id} value={t.name}>{t.name}</SelectItem>
+                                    <SelectItem key={t.id} value={t.id}>{t.name}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
